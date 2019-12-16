@@ -1,56 +1,38 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { useContext } from "react";
+import Link from "next/link";
+import appContext from "../context/context";
+import { toggleForm } from "../context/actions";
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+const links = [{ href: "https://ostaco.com", label: "Main Website" }].map(
+  link => {
+    link.key = `nav-link-${link.href}-${link.label}`;
+    return link;
+  }
+);
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
+const Nav = () => {
+  const { store, dispatch } = useContext(appContext);
+
+  const onOpen = () => {
+    dispatch({ type: "TOGGLE_FORM" });
+  };
+  return (
+    <nav>
+      <ul>
+        {/* <li>
         <Link href="/">
           <a>Home</a>
         </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
+      </li> */}
+        {links.map(({ key, href, label }) => (
+          <li key={key}>
+            <a href={href}>{label}</a>
+          </li>
+        ))}
+        <button onClick={onOpen}>Open Form</button>
+      </ul>
+    </nav>
+  );
+};
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
-
-export default Nav
+export default Nav;
